@@ -729,6 +729,7 @@ function shakeStep(step) {
   }
 }
 
+
 // ── GENERATE PASSWORD ──
 function generatePassword() {
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -741,18 +742,32 @@ function generatePassword() {
     lower[Math.floor(Math.random() * lower.length)] +
     nums[Math.floor(Math.random() * nums.length)] +
     syms[Math.floor(Math.random() * syms.length)];
-  for (let i = 0; i < 8; i++)
-    pass += all[Math.floor(Math.random() * all.length)];
-  pass = pass
-    .split("")
-    .sort(() => Math.random() - 0.5)
-    .join("");
+  for (let i = 0; i < 8; i++) pass += all[Math.floor(Math.random() * all.length)];
+  pass = pass.split("").sort(() => Math.random() - 0.5).join("");
+  
+  // Preenche o campo de Senha principal
   const input = document.getElementById("password");
-  input.type = "text";
-  input.value = pass;
-  document.getElementById("tp1").classList.add("pass-visible");
+  if (input) {
+    input.type = "text";
+    input.value = pass;
+  }
+  const tp1 = document.getElementById("tp1");
+  if (tp1) tp1.classList.add("pass-visible");
+  
+  // Preenche automaticamente o campo de Confirmar Senha (se existir!)
+  const input2 = document.getElementById("password2");
+  if (input2) {
+    input2.type = "text";
+    input2.value = pass;
+  }
+  const tp2 = document.getElementById("tp2"); 
+  if (tp2) tp2.classList.add("pass-visible");
+
+  // Roda as verificações para o formulário reconhecer que está tudo certo
   checkStrength();
+  if (typeof checkMatch === "function") checkMatch();
   checkStep1();
+
   const copyBtn = document.createElement("button");
   copyBtn.textContent = "📋 Copiar senha";
   copyBtn.style.cssText =
@@ -768,7 +783,6 @@ function generatePassword() {
     if (t) t.appendChild(copyBtn);
   }, 100);
 }
-
 // ── EMAIL SUGGESTION ──
 const COMMON_DOMAINS = [
   "gmail.com",
@@ -1217,23 +1231,30 @@ document.querySelectorAll("a[href]").forEach((link) => {
   });
 });
 
-// ── PATCH checkStep1 to include email2 ──
+// ── PATCH checkStep1 à prova de falhas ──
 const _origCheckStep1 = checkStep1;
 checkStep1 = function () {
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById("email").value.trim());
-  const email2Ok = document.getElementById("email").value.trim() === document.getElementById("email2").value.trim() && document.getElementById("email2").value.trim().length > 0;
-  const passOk = document.getElementById("password").value.length >= 8;
-  const matchOk = document.getElementById("password").value === document.getElementById("password2").value && document.getElementById("password2").value.length > 0;
-  
+  const emailEl = document.getElementById("email");
+  const email2El = document.getElementById("email2");
+  const passEl = document.getElementById("password");
+  const pass2El = document.getElementById("password2");
+
+  // Só faz a validação se o campo existir na tela
+  const emailOk = emailEl ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim()) : true;
+  const email2Ok = email2El && emailEl ? (emailEl.value.trim() === email2El.value.trim() && email2El.value.trim().length > 0) : true;
+  const passOk = passEl ? passEl.value.length >= 8 : true;
+  const matchOk = pass2El && passEl ? (passEl.value === pass2El.value && pass2El.value.length > 0) : true;
+
   const isValid = emailOk && email2Ok && passOk && matchOk;
   const btn = document.getElementById("btn-step1");
-  
-  btn.disabled = false; // Garante a remoção da trava nativa do HTML
-  
-  if (!isValid) {
-    btn.classList.add("is-incomplete");
-  } else {
-    btn.classList.remove("is-incomplete");
+
+  if (btn) {
+    btn.disabled = false; // Remove a trava nativa do HTML
+    if (!isValid) {
+      btn.classList.add("is-incomplete");
+    } else {
+      btn.classList.remove("is-incomplete");
+    }
   }
 };
 
