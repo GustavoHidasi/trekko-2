@@ -961,13 +961,20 @@ checkStep1 = function () {
     document.getElementById("password").value ===
       document.getElementById("password2").value &&
     document.getElementById("password2").value.length > 0;
-  document.getElementById("btn-step1").disabled = !(
-    emailOk &&
-    email2Ok &&
-    passOk &&
-    matchOk
-  );
+  
+  // Verifica se tudo está correto
+  const isValid = emailOk && email2Ok && passOk && matchOk;
+  
+  const btn = document.getElementById("btn-step1");
+  
+  // Substituímos o btn.disabled nativo por uma classe CSS
+  if (!isValid) {
+    btn.classList.add("is-incomplete");
+  } else {
+    btn.classList.remove("is-incomplete");
+  }
 };
+
 
 // ── CHECKLIST ──
 const _origCheckStrength = checkStrength;
