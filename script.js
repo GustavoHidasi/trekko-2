@@ -455,7 +455,7 @@ function renderDest(cat){
   var grid=document.getElementById('dest-grid');
   grid.innerHTML='';
   if(!cards.length){
-    grid.innerHTML='<div class="dest-empty"><span class="ei">'+(showFavsOnly?'♡':'🔍')+'</span>'+(showFavsOnly?'Nenhum favorito ainda. Clique em ♡ para salvar!':'Nenhum resultado.')+'</div>';
+    grid.innerHTML='<div class="dest-empty"><span class="ei">'+(showFavsOnly?'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>')+'</span>'+(showFavsOnly?'Nenhum favorito ainda. Clique no coração para salvar!':'Nenhum resultado.')+'</div>';
     document.getElementById('ver-mais-wrap').style.display='none';
     updateFavBadge(); return;
   }
@@ -464,12 +464,12 @@ function renderDest(cat){
     var faved=favorites.indexOf(c.id)>=0;
     var imgUrl=getDestImg(c.id,c.scene,c.name);
     var tagHtml='';
-    if(c.tag==='hot') tagHtml='<span class="d-tag tag-hot">🔥 Popular</span>';
-    else if(c.tag==='new') tagHtml='<span class="d-tag tag-new">✨ Novo</span>';
-    else if(c.tag==='promo') tagHtml='<span class="d-tag tag-promo">🏷️ Promo</span>';
+    if(c.tag==='hot') tagHtml='<span class="d-tag tag-hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Popular</span>';
+    else if(c.tag==='new') tagHtml='<span class="d-tag tag-new"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Novo</span>';
+    else if(c.tag==='promo') tagHtml='<span class="d-tag tag-promo"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Promo</span>';
     var pLabel=c.pfrom?'<small>a partir de </small>':(c.id[0]==='a'?'<small>Melhor época: </small>':'');
     var heartClass=faved?'heart-btn faved':'heart-btn';
-    var heartIcon=faved?'♥':'♡';
+    var heartIcon=faved?'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
     var durHtml=c.dur?'<span style="opacity:.35">·</span><span>'+c.dur+'</span>':'';
     var div=document.createElement('div');
     div.className='d-card';
@@ -632,7 +632,7 @@ function renderFiltered(cards){
   var grid=document.getElementById('dest-grid');
   grid.innerHTML='';
   if(!cards.length){
-    grid.innerHTML='<div class="dest-empty"><span class="ei">🔍</span>Nenhum resultado encontrado.</div>';
+    grid.innerHTML='<div class="dest-empty"><span class="ei"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Nenhum resultado encontrado.</div>';
     document.getElementById('ver-mais-wrap').style.display='none';
     return;
   }
@@ -641,9 +641,9 @@ function renderFiltered(cards){
     var faved=favorites.indexOf(c.id)>=0;
     var imgUrl=getDestImg(c.id,c.scene,c.name);
     var tagHtml='';
-    if(c.tag==='hot')tagHtml='<span class="d-tag tag-hot">🔥 Popular</span>';
-    else if(c.tag==='new')tagHtml='<span class="d-tag tag-new">✨ Novo</span>';
-    else if(c.tag==='promo')tagHtml='<span class="d-tag tag-promo">🏷️ Promo</span>';
+    if(c.tag==='hot') tagHtml='<span class="d-tag tag-hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Popular</span>';
+    else if(c.tag==='new') tagHtml='<span class="d-tag tag-new"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Novo</span>';
+    else if(c.tag==='promo') tagHtml='<span class="d-tag tag-promo"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;vertical-align:middle"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Promo</span>';
     var heartClass=faved?'heart-btn faved':'heart-btn';
     var div=document.createElement('div');div.className='d-card';
     var img=document.createElement('img');img.src=imgUrl;img.alt=c.name;
@@ -651,7 +651,7 @@ function renderFiltered(cards){
     img.onerror=function(){this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0f1e2e,#1e3a5f)';};
     var thumb=document.createElement('div');thumb.className='d-thumb';thumb.appendChild(img);
     thumb.innerHTML+=tagHtml;
-    var hb=document.createElement('button');hb.className=heartClass;hb.innerHTML=faved?'♥':'♡';hb.onclick=function(e){toggleFav(c.id,e);};
+    var hb=document.createElement('button');hb.className=heartClass;hb.innerHTML=faved?'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';hb.onclick=function(e){toggleFav(c.id,e);};
     thumb.appendChild(hb);
     var pr=document.createElement('div');pr.className='d-price';pr.innerHTML=(c.pfrom?'<small>a partir de </small>':'')+c.price;
     thumb.appendChild(pr);
@@ -800,7 +800,7 @@ function openCompare(){
   var cols=selected.map(function(c,i){
     var isWinner=prices[i]===minP&&prices[i]>0;
     return '<div class="compare-col'+(isWinner?' compare-winner':'')+'">'+
-      (isWinner?'<div class="compare-winner-badge">✅ Melhor preço</div>':'')+
+      (isWinner?'<div class="compare-winner-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:text-bottom"><polyline points="20 6 9 17 4 12"></polyline></svg> Melhor preço</div>':'')+
       '<img src="'+getDestImg(c.id,c.scene,c.name)+'" alt="'+c.name+'" style="width:100%;height:100px;object-fit:cover;border-radius:10px;margin-bottom:10px"/>'+
       '<div class="compare-col-name">'+c.name+'</div>'+
       '<div class="compare-item"><div class="compare-item-label">Preço</div><div class="compare-item-val">'+c.price+'</div></div>'+
@@ -1146,12 +1146,12 @@ var trekkoPoints = parseInt(localStorage.getItem('trekko-points')||'0');
 var trekkoBadges = JSON.parse(localStorage.getItem('trekko-badges')||'[]');
 
 var BADGES_DEF = [
-  {id:'first_fav',icon:'❤️',name:'Primeiro Favorito',desc:'Salvou seu primeiro destino',pts:50},
-  {id:'explorer',icon:'🗺️',name:'Explorador',desc:'Clicou no mapa pela primeira vez',pts:30},
-  {id:'5favs',icon:'⭐',name:'Colecionador',desc:'5 destinos favoritos salvos',pts:100},
-  {id:'newsletter',icon:'📧',name:'Conectado',desc:'Assinou a newsletter',pts:40},
-  {id:'compare',icon:'⚖️',name:'Analista',desc:'Comparou destinos pela primeira vez',pts:60},
-  {id:'search',icon:'🔍',name:'Pesquisador',desc:'Usou a busca inteligente',pts:20},
+  {id:'first_fav',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',name:'Primeiro Favorito',desc:'Salvou seu primeiro destino',pts:50},
+  {id:'explorer',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>',name:'Explorador',desc:'Clicou no mapa pela primeira vez',pts:30},
+  {id:'5favs',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',name:'Colecionador',desc:'5 destinos favoritos salvos',pts:100},
+  {id:'newsletter',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',name:'Conectado',desc:'Assinou a newsletter',pts:40},
+  {id:'compare',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',name:'Analista',desc:'Comparou destinos pela primeira vez',pts:60},
+  {id:'search',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',name:'Pesquisador',desc:'Usou a busca inteligente',pts:20},
 ];
 
 function addPoints(pts,badgeId){
@@ -1216,10 +1216,10 @@ var DEST_ITINERARY = {
 };
 
 var DEST_WEATHER = [
-  {icon:'☀️',temp:'28°C',label:'Agora'},
-  {icon:'🌤️',temp:'26°C',label:'Amanhã'},
-  {icon:'⛅',temp:'24°C',label:'Sábado'},
-  {icon:'🌧️',temp:'22°C',label:'Domingo'},
+  {icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>',temp:'28°C',label:'Agora'},
+  {icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.5 10a4.5 4.5 0 0 0-8.9 1A4 4 0 0 0 7 19h9a4 4 0 0 0 .5-7.9Z"/></svg>',temp:'26°C',label:'Amanhã'},
+  {icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',temp:'24°C',label:'Sábado'},
+  {icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1"/></svg>',temp:'22°C',label:'Domingo'},
 ];
 
 function openDestModal(card){
@@ -1230,8 +1230,8 @@ function openDestModal(card){
   var desc=DEST_DESCS[card.name]||('Descubra '+card.name+' e suas atrações únicas. Um destino incrível que vai transformar sua experiência de viagem no Brasil.');
 
   if(card._badges){
-    content.innerHTML='<div style="padding:28px"><h2 style="color:white;font-size:22px;font-weight:900;margin-bottom:20px">⭐ '+trekkoPoints.toLocaleString('pt-BR')+' Pontos Trekko</h2>'
-      + BADGES_DEF.map(function(b){var earned=trekkoBadges.indexOf(b.id)>=0;return '<div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:rgba(255,255,255,'+(earned?'.07':'.03')+');border:1px solid rgba(255,255,255,'+(earned?'.15':'.06')+');margin-bottom:8px;opacity:'+(earned?1:.45)+'"><span style="font-size:26px">'+b.icon+'</span><div><div style="color:white;font-weight:800;font-size:14px">'+b.name+'</div><div style="color:#8fa3b8;font-size:12px">'+b.desc+' · +'+b.pts+' pts</div></div>'+(earned?'<span style="margin-left:auto;color:#22c55e;font-weight:800;font-size:12px">✅ Conquistado</span>':'')+'</div>';}).join('')
+    content.innerHTML='<div style="padding:28px"><h2 style="color:white;font-size:22px;font-weight:900;margin-bottom:20px;display:flex;align-items:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> '+trekkoPoints.toLocaleString('pt-BR')+' Pontos Trekko</h2>'
+      + BADGES_DEF.map(function(b){var earned=trekkoBadges.indexOf(b.id)>=0;return '<div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:rgba(255,255,255,'+(earned?'.07':'.03')+');border:1px solid rgba(255,255,255,'+(earned?'.15':'.06')+');margin-bottom:8px;opacity:'+(earned?1:.45)+'"><span style="width:26px;height:26px;display:inline-block">'+b.icon+'</span><div><div style="color:white;font-weight:800;font-size:14px">'+b.name+'</div><div style="color:#8fa3b8;font-size:12px">'+b.desc+' · +'+b.pts+' pts</div></div>'+(earned?'<span style="margin-left:auto;color:#22c55e;font-weight:800;font-size:12px;display:flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Conquistado</span>':'')+'</div>';}).join('')
       +'</div>';
     overlay.classList.add('show');
     return;
@@ -1251,9 +1251,9 @@ function openDestModal(card){
         +'<div class="modal-price-block">'
           +'<div class="modal-price-from">'+(card.pfrom?'a partir de':'')+'</div>'
           +'<div class="modal-price">'+card.price+'</div>'
-          +'<div class="cupom-wrap"><div class="cupom-title">🏷️ Cupom de desconto</div><div class="cupom-input-row"><input class="cupom-input" id="modal-cupom-input" placeholder="Digite seu cupom" /><button class="cupom-btn" onclick="applyCupom()">Aplicar</button></div><div class="cupom-success" id="cupom-success">✅ <span id="cupom-msg">Cupom aplicado!</span></div><div class="cupom-error" id="cupom-error"></div></div><div class="modal-actions">'
+          +'<div class="cupom-wrap"><div class="cupom-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Cupom de desconto</div><div class="cupom-input-row"><input class="cupom-input" id="modal-cupom-input" placeholder="Digite seu cupom" /><button class="cupom-btn" onclick="applyCupom()">Aplicar</button></div><div class="cupom-success" id="cupom-success"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom"><polyline points="20 6 9 17 4 12"></polyline></svg> <span id="cupom-msg">Cupom aplicado!</span></div><div class="cupom-error" id="cupom-error"></div></div><div class="modal-actions">'
             +'<button class="modal-btn-primary" onclick="alert(\'Redirecionando para reserva...\')">Reservar agora</button>'
-            +'<button class="modal-btn-secondary" onclick="shareDestination(\''+card.name+'\')">📤</button>'
+            +'<button class="modal-btn-secondary" onclick="shareDestination(\''+card.name+'\')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>'
           +'</div>'
         +'</div>'
       +'</div>'
@@ -1274,24 +1274,24 @@ function openDestModal(card){
         +'<div style="display:flex;gap:8px;margin-bottom:14px">'
           +'<button class="btn-clear-price" onclick="loadRoteiro(\''+card.name+'\',\'3dias\',this)" data-days="3dias">3 dias</button>'
           +'<button class="btn-clear-price" onclick="loadRoteiro(\''+card.name+'\',\'5dias\',this)" data-days="5dias">5 dias</button>'
-          +'<button class="btn-apply-price" onclick="loadRoteiroAI(\''+card.name+'\')">✨ Gerar com IA</button>'
+          +'<button class="btn-apply-price" onclick="loadRoteiroAI(\''+card.name+'\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:text-bottom"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Gerar com IA</button>'
         +'</div>'
         +'<div id="roteiro-content">'+buildRoteiro('3dias',card.name)+'</div>'
       +'</div>'
       +'<div class="modal-tab-content" id="tab-clima">'
         +'<div class="modal-section-title">Previsão do tempo</div>'
         +'<div class="modal-weather">'
-          +DEST_WEATHER.map(function(w){return '<div class="weather-card"><span class="weather-icon">'+w.icon+'</span><div class="weather-temp">'+w.temp+'</div><div class="weather-label">'+w.label+'</div></div>';}).join('')
+          +DEST_WEATHER.map(function(w){return '<div class="weather-card"><span class="weather-icon" style="width:24px;height:24px;display:inline-block">'+w.icon+'</span><div class="weather-temp">'+w.temp+'</div><div class="weather-label">'+w.label+'</div></div>';}).join('')
         +'</div>'
         +'<div style="margin-top:14px;font-size:13px;color:#8fa3b8">⚠️ Dados simulados. Para previsão real, ative a integração com API de clima.</div>'
       +'</div>'
       +'<div class="modal-tab-content" id="tab-share">'
         +'<div class="modal-section-title">Compartilhar destino</div>'
         +'<div class="share-row">'
-          +'<button class="share-btn" onclick="shareWhatsApp(\''+card.name+'\',\''+card.price+'\')">💬 WhatsApp</button>'
-          +'<button class="share-btn" onclick="shareTwitter(\''+card.name+'\')">🐦 Twitter/X</button>'
-          +'<button class="share-btn" onclick="copyLink(\''+card.name+'\')">🔗 Copiar link</button>'
-          +'<button class="share-btn" onclick="shareNative(\''+card.name+'\',\''+card.price+'\')">📤 Mais opções</button>'
+          +'<button class="share-btn" onclick="shareWhatsApp(\''+card.name+'\',\''+card.price+'\')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:text-bottom"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> WhatsApp</button>'
+          +'<button class="share-btn" onclick="shareTwitter(\''+card.name+'\')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:text-bottom"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg> Twitter/X</button>'
+          +'<button class="share-btn" onclick="copyLink(\''+card.name+'\')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:text-bottom"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Copiar link</button>'
+          +'<button class="share-btn" onclick="shareNative(\''+card.name+'\',\''+card.price+'\')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:text-bottom"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Mais opções</button>'
         +'</div>'
       +'</div>'
     +'</div>';
@@ -1745,13 +1745,16 @@ var currentTheme = localStorage.getItem('trekko-theme') || 'dark';
   if(currentTheme === 'light') {
     document.body.classList.add('light-mode');
     var btn = document.getElementById('theme-toggle');
-    if(btn) btn.textContent = '☀️';
+    if(btn) btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>';
+  } else {
+    var btn = document.getElementById('theme-toggle');
+    if(btn) btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   }
 })();
 function toggleTheme(){
   currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
   document.body.classList.toggle('light-mode', currentTheme === 'light');
-  document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☀️' : '🌙';
+  document.getElementById('theme-toggle').innerHTML = currentTheme === 'light' ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   localStorage.setItem('trekko-theme', currentTheme);
 }
 
@@ -1777,23 +1780,24 @@ function fetchWeather(city) {
     });
 }
 function getWeatherIcon(code) {
-  if(code === 113) return '☀️';
-  if(code <= 116) return '⛅';
-  if(code <= 122) return '☁️';
-  if(code <= 143) return '🌫️';
-  if(code <= 176) return '🌦️';
-  if(code <= 260) return '🌧️';
-  if(code <= 296) return '⛈️';
-  if(code <= 320) return '🌨️';
-  if(code <= 395) return '❄️';
-  return '🌤️';
+  const svgProps = 'width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  if(code === 113) return '<svg ' + svgProps + '><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>';
+  if(code <= 116) return '<svg ' + svgProps + '><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.5 10a4.5 4.5 0 0 0-8.9 1A4 4 0 0 0 7 19h9a4 4 0 0 0 .5-7.9Z"/></svg>';
+  if(code <= 122) return '<svg ' + svgProps + '><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>';
+  if(code <= 143) return '<svg ' + svgProps + '><path d="M4 14h16M4 18h16M4 10h16"/></svg>';
+  if(code <= 176) return '<svg ' + svgProps + '><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1"/></svg>';
+  if(code <= 260) return '<svg ' + svgProps + '><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1"/></svg>';
+  if(code <= 296) return '<svg ' + svgProps + '><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1"/><path d="m9 13-3 8 8-3-3 8"/></svg>';
+  if(code <= 320) return '<svg ' + svgProps + '><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01"/></svg>';
+  if(code <= 395) return '<svg ' + svgProps + '><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01"/></svg>';
+  return '<svg ' + svgProps + '><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.5 10a4.5 4.5 0 0 0-8.9 1A4 4 0 0 0 7 19h9a4 4 0 0 0 .5-7.9Z"/></svg>';
 }
 function loadNavWeather() {
   var city = 'Goiania'; // default
   var prefs = JSON.parse(localStorage.getItem('trekko-draft')||'{}');
   if(prefs.city) city = prefs.city;
   fetchWeather(city).then(function(w){
-    document.getElementById('wnav-icon').textContent = w.icon;
+    document.getElementById('wnav-icon').innerHTML = w.icon;
     document.getElementById('wnav-temp').textContent = w.temp;
   }).catch(function(){
     document.getElementById('wnav-temp').textContent = '--°C';
@@ -1805,7 +1809,7 @@ function openWeatherModal() {
   if(!content) return;
   document.getElementById('dest-modal-overlay').classList.add('show');
   document.body.style.overflow = 'hidden';
-  content.innerHTML = '<div style="padding:28px"><h2 style="color:white;font-size:20px;font-weight:900;margin-bottom:20px">🌡️ Clima em tempo real</h2>'
+  content.innerHTML = '<div style="padding:28px"><h2 style="color:white;font-size:20px;font-weight:900;margin-bottom:20px;display:flex;align-items:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg> Clima em tempo real</h2>'
     + '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">'
     + ['São Paulo','Rio de Janeiro','Fortaleza','Gramado','Manaus','Florianópolis'].map(function(c){
         return '<button class="btn-clear-price" onclick="showCityWeather(\''+c+'\')" style="font-size:13px">'+c+'</button>';
@@ -1819,13 +1823,13 @@ function showCityWeather(city) {
   el.innerHTML = '<div class="modal-ai-loading"><div class="modal-ai-spinner"></div>Buscando clima de '+city+'...</div>';
   fetchWeather(city).then(function(w){
     el.innerHTML = '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;text-align:center">'
-      + '<div style="font-size:64px;margin-bottom:8px">'+w.icon+'</div>'
+      + '<div style="margin-bottom:8px;display:flex;justify-content:center"><div style="width:64px;height:64px">'+w.icon+'</div></div>'
       + '<div style="font-size:42px;font-weight:900;color:white;margin-bottom:4px">'+w.temp+'</div>'
       + '<div style="font-size:16px;color:#8fa3b8;margin-bottom:20px">'+city+' · '+w.desc+'</div>'
       + '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
-      + '<div class="weather-card"><span class="weather-icon">🤔</span><div class="weather-temp" style="font-size:16px">'+w.feels+'</div><div class="weather-label">Sensação</div></div>'
-      + '<div class="weather-card"><span class="weather-icon">💧</span><div class="weather-temp" style="font-size:16px">'+w.humidity+'</div><div class="weather-label">Umidade</div></div>'
-      + '<div class="weather-card"><span class="weather-icon">💨</span><div class="weather-temp" style="font-size:16px">'+w.wind+'</div><div class="weather-label">Vento</div></div>'
+      + '<div class="weather-card"><span class="weather-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></span><div class="weather-temp" style="font-size:16px">'+w.feels+'</div><div class="weather-label">Sensação</div></div>'
+      + '<div class="weather-card"><span class="weather-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span><div class="weather-temp" style="font-size:16px">'+w.humidity+'</div><div class="weather-label">Umidade</div></div>'
+      + '<div class="weather-card"><span class="weather-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg></span><div class="weather-temp" style="font-size:16px">'+w.wind+'</div><div class="weather-label">Vento</div></div>'
       + '</div></div>'
       + '<div style="margin-top:12px;font-size:12px;color:#8fa3b8;text-align:center">Dados em tempo real via wttr.in</div>';
   }).catch(function(){
@@ -1850,7 +1854,7 @@ function applyCupom() {
   if(!code) { err.textContent = 'Digite um cupom.'; err.classList.add('show'); return; }
   var cupom = CUPONS[code];
   if(!cupom) { err.textContent = 'Cupom inválido ou expirado.'; err.classList.add('show'); return; }
-  document.getElementById('cupom-msg').textContent = '✅ ' + cupom.desc + ' aplicado!';
+  document.getElementById('cupom-msg').textContent = cupom.desc + ' aplicado!';
   ok.classList.add('show');
   localStorage.setItem('trekko-cupom', JSON.stringify({code:code,...cupom}));
   addPoints(15, 'compare', 'Cupom aplicado +15 pts!');
