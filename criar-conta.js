@@ -608,21 +608,19 @@ function maskCpf(input) {
   return false;
 }
 function checkStep2() {
-  const name =
-    document.getElementById("fullname").value.trim().split(" ").filter(Boolean)
-      .length >= 2;
-  const phone =
-    document.getElementById("phone").value.replace(/\D/g, "").length === 11;
-  const cpf = validateCpf(
-    document.getElementById("cpf").value.replace(/\D/g, ""),
-  );
+  const name = document.getElementById("fullname").value.trim().split(" ").filter(Boolean).length >= 2;
+  const phone = document.getElementById("phone").value.replace(/\D/g, "").length === 11;
+  const cpf = validateCpf(document.getElementById("cpf").value.replace(/\D/g, ""));
   const bday = validateBirthday();
-  document.getElementById("btn-step2").disabled = !(
-    name &&
-    phone &&
-    cpf &&
-    bday
-  );
+  
+  const isValid = name && phone && cpf && bday;
+  const btn = document.getElementById("btn-step2");
+  
+  if (!isValid) {
+    btn.classList.add("is-incomplete");
+  } else {
+    btn.classList.remove("is-incomplete");
+  }
 }
 
 // ── STEP 3 ──
@@ -1227,7 +1225,7 @@ document.querySelectorAll("a[href]").forEach((link) => {
 });
 
 function tentarAvancar(passoAtual, proximoPasso) {
-  const stepDiv = document.getElementById("step" + passoAtual);
+  const stepDiv = document.getElementById("step-" + passoAtual);
   const inputs = stepDiv.querySelectorAll("input[required]");
   let isValid = true;
 
@@ -1255,7 +1253,7 @@ function tentarAvancar(passoAtual, proximoPasso) {
 }
 
 function tentarFinalizar(passoAtual) {
-  const stepDiv = document.getElementById("step" + passoAtual);
+  const stepDiv = document.getElementById("step-" + passoAtual);
   // Seleciona campos de texto obrigatórios e checkboxes obrigatórios (Termos de Uso)
   const inputs = stepDiv.querySelectorAll("input[required]");
   let isValid = true;
