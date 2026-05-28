@@ -46,8 +46,13 @@
   /* ── Buscar loading ── */
   function buscar() {
     const btn = document.getElementById('btn-buscar');
-    btn.classList.add('loading');
-    setTimeout(() => btn.classList.remove('loading'), 1800);
+    if (btn) btn.classList.add('loading');
+    const destInput = document.getElementById('dest-input');
+    const val = destInput ? destInput.value.trim() : '';
+    setTimeout(() => {
+      if (btn) btn.classList.remove('loading');
+      window.location.href = 'resultados.html?q=' + encodeURIComponent(val) + '&cat=' + (window.currentCat || 'voos');
+    }, 800);
   }
 
   /* ── Rotating placeholder ── */
@@ -1608,7 +1613,7 @@ function navSearchKey(e) {
     e.preventDefault();
   } else if (e.key === 'Enter') {
     if (navSearchIdx >= 0) selectNavResult(navSearchIdx);
-    else { var val = document.getElementById('nav-search-input').value; if (val) filterDestGrid(val); }
+      else { var val = document.getElementById('nav-search-input').value; if (val) window.location.href = 'resultados.html?q=' + encodeURIComponent(val) + '&cat=' + window.currentCat; }
     closeNavDropdown();
   } else if (e.key === 'Escape') {
     clearNavSearch();
@@ -1964,79 +1969,7 @@ showOrigemAC = function(val) {
 // ── Busca REAL via /api/voos ───────────────────────────────
 var _origBuscar = buscar;
 buscar = function() {
-  if (currentCat !== 'voos' && currentCat !== 'onibus') {
-    _origBuscar();
-    return;
-  }
-
-  var btn = document.getElementById('btn-buscar');
-  btn.classList.add('loading');
-
-  if (currentCat === 'voos') {
-    var origemInput = document.getElementById('origem-input');
-    var destInput = document.getElementById('dest-input');
-    var dataIda = document.getElementById('date-ida').value;
-    var adultos = counts.adults;
-
-    // Extrai código IATA ou usa cidade
-    var origIata = origemInput.dataset.iata || origemInput.value.match(/\(([A-Z]{3})\)/)?.[1] || 'GRU';
-    var destIata = destInput.dataset.iata || destInput.value.match(/\(([A-Z]{3})\)/)?.[1] || 'GIG';
-
-    if (!dataIda) {
-      dataIda = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
-    }
-
-    var params = new URLSearchParams({
-      origem: origIata,
-      destino: destIata,
-      data: dataIda,
-      adultos: adultos,
-    });
-
-    if (currentTripType === 'idavolta') {
-      var dataVolta = document.getElementById('date-volta').value;
-      if (dataVolta) params.append('volta', dataVolta);
-    }
-
-    fetch(API_BASE + '/api/voos?' + params)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        btn.classList.remove('loading');
-        if (data.voos && data.voos.length) {
-          renderVoosResult(data);
-        } else {
-          renderDest(currentCat);
-        }
-        addPoints(5, 'search');
-      })
-      .catch(function() {
-        btn.classList.remove('loading');
-        renderDest(currentCat);
-      });
-
-  } else if (currentCat === 'hoteis') {
-    var destInput = document.getElementById('dest-input');
-    var checkin = document.getElementById('date-ida').value;
-    var checkout = document.getElementById('date-volta').value;
-
-    fetch(API_BASE + '/api/hoteis?' + new URLSearchParams({
-      cidade: destInput.value || 'Rio de Janeiro',
-      checkin: checkin || new Date().toISOString().split('T')[0],
-      checkout: checkout || new Date(Date.now() + 3*86400000).toISOString().split('T')[0],
-      adultos: counts.adults,
-    }))
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        btn.classList.remove('loading');
-        if (data.hoteis && data.hoteis.length) {
-          renderHoteisResult(data);
-        }
-      })
-      .catch(function() {
-        btn.classList.remove('loading');
-        renderDest(currentCat);
-      });
-  }
+  _origBuscar();
 };
 
 // ── Renderiza resultados de VOOS ──────────────────────────
