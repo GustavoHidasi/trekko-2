@@ -159,7 +159,9 @@
       </div>
 
       <div class="actions">
-        <button class="btn-primary" id="btn-step1" onclick="(()=>{if(!document.getElementById('btn-step1').disabled){goNext(2,true);}else{shakeStep(1);}})()" disabled><span class="btn-text" data-i="btn_next">Próximo →</span></button>
+        <button type="button" class="btn-primary" id="btn-step1" onclick="tentarAvancar(1, 2)">
+         <span class="btn-text" data-i="btn_next">Próximo →</span>
+        </button>
       </div>
     </div>
 
@@ -230,9 +232,10 @@
       </div>
 
       <div class="actions">
-        <button class="btn-secondary" onclick="goNext(1,false)" data-i="btn_back">Voltar</button>
-        <button class="btn-primary" id="btn-step2" onclick="(()=>{if(!document.getElementById('btn-step2').disabled){goNext(3,true);}else{shakeStep(2);}})()" disabled><span class="btn-text" data-i="btn_next">Próximo →</span></button>
-      </div>
+        <button type="button" class="btn-secondary" onclick="goNext(1, false)" data-i="btn_back">Voltar</button>
+        <button type="button" class="btn-primary" id="btn-step2" onclick="tentarAvancar(2, 3)">
+         <span class="btn-text" data-i="btn_next">Próximo →</span>
+        </button>      
     </div>
 
     <!-- STEP 3 -->
@@ -267,9 +270,10 @@
         <label for="terms"><span data-i="terms_text">Li e aceito os</span> <a href="#" data-i="terms_link">Termos de uso</a> <span data-i="terms_and">e a</span> <a href="#" data-i="privacy_link">Política de privacidade</a> <span data-i="terms_of">do Trekko.</span></label>
       </div>
       <div class="actions">
-        <button class="btn-secondary" onclick="goNext(2,false)" data-i="btn_back">Voltar</button>
-        <button class="btn-primary" id="btn-step3" onclick="finish()" disabled><span class="btn-text" data-i="btn_create">✨ Criar minha conta</span></button>
-      </div>
+       <button type="button" class="btn-secondary" onclick="goNext(2, false)" data-i="btn_back">Voltar</button>
+       <button type="button" class="btn-primary" id="btn-step3" onclick="tentarFinalizar(3)">
+          <span class="btn-text" data-i="btn_create">Criar minha conta</span>
+       </button>     
     </div>
 
     <div class="login-foot"><span data-i="have_account">Já tem conta?</span> <a href="login.html" data-i="login_link">Entrar</a></div>

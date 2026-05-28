@@ -1218,3 +1218,21 @@ document.querySelectorAll("a[href]").forEach((link) => {
     }, 260);
   });
 });
+
+
+function tentarAvancar(passoAtual, proximoPasso) {
+  // Vamos verificar se os campos do passo atual estão válidos
+  // (Usando a função validateStep que te mostrei na mensagem anterior)
+  let formularioValido = validateStep(passoAtual);
+
+  if (formularioValido) {
+    // Se estiver tudo preenchido, chama a sua função original de avançar
+    goNext(proximoPasso, true);
+  } else {
+    // Se faltar algo, chama a função de tremer
+    shakeStep(passoAtual);
+  }
+}
+
+
+
