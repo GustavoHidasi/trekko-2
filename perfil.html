@@ -146,10 +146,30 @@
       c7:'gramado,gaucho',a3:'iguazu-falls,cataratas',h1:'copacabana-palace,rio',
     };
 
-    window.addEventListener('load', function(){
+    window.addEventListener('load', async function(){
+      var token = localStorage.getItem('trekko-token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      var dbData = {};
+      try {
+        const res = await fetch('/api/user/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) dbData = await res.json();
+      } catch (error) {
+        console.error('Erro ao buscar dados do perfil:', error);
+      }
+
       var draft = JSON.parse(localStorage.getItem('trekko-draft')||'{}');
-      var name = draft.fullname || 'Viajante Trekko';
-      var email = draft.email || '—';
+      var name = dbData.fullname || draft.fullname || 'Viajante Trekko';
+      var email = dbData.email || draft.email || '—';
+      var phone = dbData.phone || draft.phone || '';
+      var city = dbData.city || draft.city || '';
+      var dbPrefs = dbData.preferences || draft.prefs || [];
+
       var pts = parseInt(localStorage.getItem('trekko-points')||'0');
       var favs = JSON.parse(localStorage.getItem('trekko-favs')||'[]');
       var earnedBadges = JSON.parse(localStorage.getItem('trekko-badges')||'[]');
@@ -166,8 +186,9 @@
       // Prefill edit form
       document.getElementById('edit-name').value = name;
       document.getElementById('edit-email').value = email;
-      if(draft.city) document.getElementById('edit-city').value = draft.city;
-      if(draft.prefs) draft.prefs.forEach(function(p){
+      document.getElementById('edit-tel').value = phone;
+      document.getElementById('edit-city').value = city;
+      if(dbPrefs) dbPrefs.forEach(function(p){
         var btn = document.querySelector('.pref-toggle[data-pref="'+p+'"]');
         if(btn) btn.style.background = 'rgba(34,197,94,.15)', btn.style.borderColor = 'var(--green)', btn.style.color = 'var(--green)';
       });
