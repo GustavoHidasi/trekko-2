@@ -53,26 +53,3 @@ Abaixo estão descritos os requisitos elicitados para o sistema, estruturados de
 * **[RN01] Isolamento de Dados por Usuário:** Um usuário previamente autenticado possui permissão de leitura, edição e exclusão estritamente sobre os roteiros e informações vinculadas à sua própria chave primária no sistema.
 * **[RN02] Consistência Temporal:** O backend deve validar e rejeitar a criação de qualquer atividade cuja data e hora de término informadas sejam anteriores à data e hora de início.
 * **[RN03] Escopo Não-Transacional:** A plataforma opera unicamente como uma ferramenta para organização logística. O escopo atual isenta o sistema de gateways de pagamento; logo, nenhuma transação financeira ou reserva de serviços reais ocorrerá dentro da aplicação.
-
-## 6. Instruções para Inicialização Local
-
-Para avaliação e execução do projeto em ambiente de desenvolvimento, siga os passos abaixo:
-
-1. Realize o clone deste repositório:
-   ```bash
-   git clone https://github.com/GustavoHidasi/trekko-2.git
-   ```
-2. Acesse o diretório raiz do projeto:
-   ```bash
-   cd trekko-2
-   ```
-3. Instale as dependências do servidor:
-   ```bash
-   npm install
-   ```
-4. Configure as variáveis de ambiente renomeando ou copiando o arquivo `env.example.txt` para `.env` e preencha com as credenciais válidas do PostgreSQL (Neon).
-5. Inicie a aplicação:
-   ```bash
-   npm start
-   ```
-6. Acesse a aplicação no navegador de sua preferência inserindo o endereço local (geralmente `http://localhost:3000` ou a porta informada no terminal).
