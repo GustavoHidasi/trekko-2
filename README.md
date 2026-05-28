@@ -8,9 +8,9 @@ O Trekko é um projeto acadêmico de uma aplicação voltada para a área de tur
 ## 1. Tecnologias Utilizadas
 
 * **Frontend:** HTML, CSS e JavaScript (Vanilla ou utilizando um framework como React/Vue) para a construção da interface do usuário.
-* **Backend:** JavaScript rodando em ambiente Node.js (utilizando o framework Express) para a construção da API REST.
-* **Backend:** JavaScript rodando em ambiente Node.js (utilizando por exemplo o framework Express) para a construção da API REST.
-* **Banco de Dados:** PostgreSQL para armazenamento de usuários, roteiros e atividades.
+* **Backend:** JavaScript ou rodando em ambiente Node.js (utilizando o framework Express) para a construção da API REST.
+* **Backend:** JavaScript ou rodando em ambiente Node.js (utilizando por exemplo o framework Express) para a construção da API REST.
+* **Banco de Dados:** PostgreSQL na Nuvem com Neon para armazenamento de usuários, roteiros e atividades.
 
 ---
 
