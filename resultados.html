@@ -11,9 +11,9 @@
 <body>
   <nav class="page-nav">
   <a href="index.html" class="back-btn">← Voltar</a>
-  <div class="page-nav-logo">
+  <a href="index.html" class="logo">
     <img src="uploads/trekko-logo2-transparent.png" alt="Trekko" />    
-  </div>
+  </a>
   <span style="font-size:15px;font-weight:800;color:white;margin-left:4px">Resultados da busca</span>
 </nav>
   <div class="page-wrap">
@@ -139,6 +139,76 @@
   </div>
 
   <script>
+    const DEST_IMGS = {
+      /* VOOS - Foco em Paisagens Urbanas e Panoramas */
+      v1:'https://loremflickr.com/280/160/riodejaneiro,cityscape,copacabana',
+      v2:'https://loremflickr.com/280/160/salvador,pelourinho,architecture',
+      v3:'https://loremflickr.com/280/160/fortaleza,cityscape,beach',
+      v4:'https://loremflickr.com/280/160/florianopolis,landscape,bridge',
+      v5:'https://loremflickr.com/280/160/manaus,cityscape,amazonas',
+      v6:'https://loremflickr.com/280/160/recife,cityscape,architecture',
+      v7:'https://loremflickr.com/280/160/portoalegre,cityscape,landmark',
+      v8:'https://loremflickr.com/280/160/belem,architecture,landmark',
+      v9:'https://loremflickr.com/280/160/saopaulo,skyline,cityscape',
+      v10:'https://loremflickr.com/280/160/salvador,elevadorlacerda,landmark',
+      v11:'https://loremflickr.com/280/160/fortaleza,beiramar,landscape',
+      v12:'https://loremflickr.com/280/160/belohorizonte,skyline,cityscape',
+      v13:'https://loremflickr.com/280/160/fernandodenoronha,landscape,ocean',
+      v14:'https://loremflickr.com/280/160/maceio,landscape,coastline',
+      v15:'https://loremflickr.com/280/160/saopaulo,avenidapaulista,cityscape',
+      v16:'https://loremflickr.com/280/160/riodejaneiro,corcovado,monument',
+      v17:'https://loremflickr.com/280/160/natal,landscape,dunes',
+      v18:'https://loremflickr.com/280/160/belohorizonte,architecture,city',
+
+      /* ONIBUS - Foco em Marcos Turísticos */
+      o1:'https://loremflickr.com/280/160/riodejaneiro,sugarloaf,landscape',
+      o2:'https://loremflickr.com/280/160/belohorizonte,pampulha,architecture',
+      o3:'https://loremflickr.com/280/160/florianopolis,landscape,coast',
+      o4:'https://loremflickr.com/280/160/curitiba,botanicalgarden,landmark',
+      o5:'https://loremflickr.com/280/160/portoalegre,cityscape,monument',
+      o6:'https://loremflickr.com/280/160/campinas,cityscape,architecture',
+      o7:'https://loremflickr.com/280/160/buzios,landscape,village',
+      o8:'https://loremflickr.com/280/160/angradosreis,landscape,coastline',
+      o9:'https://loremflickr.com/280/160/salvador,faroldabarra,landmark',
+      o10:'https://loremflickr.com/280/160/brasilia,architecture,monument',
+      o11:'https://loremflickr.com/280/160/saopaulo,buildings,skyline',
+      o12:'https://loremflickr.com/280/160/fozdoiguacu,waterfall,landscape',
+      o13:'https://loremflickr.com/280/160/florianopolis,bridge,landmark',
+      o14:'https://loremflickr.com/280/160/olinda,architecture,historic',
+      o15:'https://loremflickr.com/280/160/natal,pontanegra,landscape',
+      o16:'https://loremflickr.com/280/160/goiania,cityscape,park',
+
+      /* HOTEIS - Foco em Fachadas e Estruturas (Removido termos genéricos de luxo que trazem fotos de pessoas) */
+      h1:'https://loremflickr.com/280/160/hotel,facade,copacabana',
+      h2:'https://loremflickr.com/280/160/resort,architecture,ipanema',
+      h3:'https://loremflickr.com/280/160/hotel,building,saopaulo',
+      h4:'https://loremflickr.com/280/160/resort,landscape,praiadoforte',
+      h5:'https://loremflickr.com/280/160/hotel,architecture,fozdoiguacu',
+      h6:'https://loremflickr.com/280/160/resort,coastline,maragogi',
+      h7:'https://loremflickr.com/280/160/resort,architecture,florianopolis',
+      h8:'https://loremflickr.com/280/160/hotel,mountain,camposdojordao',
+      h9:'https://loremflickr.com/280/160/pousada,architecture,jericoacoara',
+      h10:'https://loremflickr.com/280/160/resort,pool,portodegalinhas',
+      h11:'https://loremflickr.com/280/160/lodge,nature,bonito',
+      h12:'https://loremflickr.com/280/160/resort,architecture,trancoso',
+      h13:'https://loremflickr.com/280/160/resort,landscape,itacare',
+      h14:'https://loremflickr.com/280/160/historic,building,paraty',
+      h15:'https://loremflickr.com/280/160/lodge,amazon,architecture',
+      h16:'https://loremflickr.com/280/160/hotel,skyscraper,saopaulo',
+
+      /* ATRACOES - Foco em Maravilhas Naturais */
+      a1:'https://loremflickr.com/280/160/dunes,landscape,lencoismaranhenses',
+      a2:'https://loremflickr.com/280/160/waterfall,landscape,chapadadiamantina',
+      a3:'https://loremflickr.com/280/160/waterfall,landscape,iguazufalls',
+      a4:'https://loremflickr.com/280/160/coastline,landscape,fernandodenoronha',
+      a5:'https://loremflickr.com/280/160/landscape,nature,jalapao',
+      a6:'https://loremflickr.com/280/160/river,landscape,bonito',
+    };
+
+    function getDestImg(id, scene, name) {
+      return DEST_IMGS[id] || ('https://loremflickr.com/280/160/' + encodeURIComponent(name) + ',cityscape,landscape');
+    }
+
     // Inline minimal DEST_DATA for this page
     var CATS = {
       voos: { label:'Voo', items:[
@@ -217,8 +287,9 @@
       list.innerHTML = items.map(function(item){
         var tagHtml = item.tag ? '<span class="badge '+(item.tag==='hot'?'br2':item.tag==='new'?'bg':'bo')+'">'+(item.tag==='hot'?'Popular':item.tag==='new'?'Novo':'Promo')+'</span>' : '';
         var priceHtml = item.price > 0 ? 'R$ '+item.price.toLocaleString('pt-BR') : 'Gratuito';
+        var imgUrl = getDestImg(item.id, null, item.name);
         return '<div class="result-card" onclick="goToReserva(\''+item.name+'\',\''+item.id+'\')">'
-          +'<img class="result-img" src="https://loremflickr.com/280/160/'+encodeURIComponent(item.name)+',cityscape" onerror="this.style.background=\'#1e3a5f\';this.src=\'\'"/>'
+          +'<img class="result-img" src="'+imgUrl+'" onerror="this.style.background=\'#1e3a5f\';this.src=\'\'"/>'
           +'<div class="result-info">'
             +'<div class="result-name">'+item.name+'</div>'
             +'<div class="result-meta">'+item.meta+'</div>'
