@@ -219,7 +219,7 @@
         var tagHtml = item.tag ? '<span class="badge '+(item.tag==='hot'?'br2':item.tag==='new'?'bg':'bo')+'">'+(item.tag==='hot'?'Popular':item.tag==='new'?'Novo':'Promo')+'</span>' : '';
         var priceHtml = item.price > 0 ? 'R$ '+item.price.toLocaleString('pt-BR') : 'Gratuito';
         return '<div class="result-card" onclick="goToReserva(\''+item.name+'\',\''+item.id+'\')">'
-          +'<img class="result-img" src="https://source.unsplash.com/280x160/?'+encodeURIComponent(item.name)+',brazil" onerror="this.style.background=\'#1e3a5f\';this.src=\'\'"/>'
+          +'<img class="result-img" src="https://loremflickr.com/280/160/'+encodeURIComponent(item.name)+',cityscape" onerror="this.style.background=\'#1e3a5f\';this.src=\'\'"/>'
           +'<div class="result-info">'
             +'<div class="result-name">'+item.name+'</div>'
             +'<div class="result-meta">'+item.meta+'</div>'
