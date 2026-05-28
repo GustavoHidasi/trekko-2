@@ -68,12 +68,6 @@ const I18N = {
     ok_birthday: "✓ Data válida",
     err_cpf: "CPF inválido",
     ok_cpf: "✓ CPF válido",
-    err_name: "Digite seu nome e sobrenome",
-    ok_name: "✓ Nome válido",
-  },
-  en: {
-    err_name: "Enter your first and last name",
-    ok_name: "✓ Valid name",
   },
   en: {
     tab_login: "Sign in",
@@ -212,8 +206,6 @@ const I18N = {
     ok_birthday: "✓ Fecha válida",
     err_cpf: "CPF inválido",
     ok_cpf: "✓ CPF válido",
-    err_name: "Ingresa tu nombre y apellido",
-    ok_name: "✓ Nombre válido",
   },
 };
 let lang = localStorage.getItem("trekko-lang") || "pt";
@@ -616,46 +608,32 @@ function maskCpf(input) {
   return false;
 }
 function checkStep2() {
-  const name = document.getElementById("fullname").value.trim().split(" ").filter(Boolean).length >= 2;
-  const phone = document.getElementById("phone").value.replace(/\D/g, "").length === 11;
-  const cpf = validateCpf(document.getElementById("cpf").value.replace(/\D/g, ""));
+  const name =
+    document.getElementById("fullname").value.trim().split(" ").filter(Boolean)
+      .length >= 2;
+  const phone =
+    document.getElementById("phone").value.replace(/\D/g, "").length === 11;
+  const cpf = validateCpf(
+    document.getElementById("cpf").value.replace(/\D/g, ""),
+  );
   const bday = validateBirthday();
-  
-  const isValid = name && phone && cpf && bday;
-  const btn = document.getElementById("btn-step2");
-  
-  btn.disabled = false; // Garante a remoção da trava nativa
-  
-  if (!isValid) {
-    btn.classList.add("is-incomplete");
-  } else {
-    btn.classList.remove("is-incomplete");
-  }
+  document.getElementById("btn-step2").disabled = !(
+    name &&
+    phone &&
+    cpf &&
+    bday
+  );
 }
 
-/* ══════════════ STEP 3 ══════════════ */
-function togglePref(el) {
-  el.classList.toggle('active');
-  checkStep3();
-}
-
+// ── STEP 3 ──
 function checkStep3() {
-  const prefs = document.querySelectorAll('.pref-card.active');
-  const termsCheckbox = document.getElementById('terms');
-  const termsAccepted = termsCheckbox && termsCheckbox.checked;
-  const isValid = prefs.length > 0 && termsAccepted;
-  const btn = document.getElementById('btn-step3');
-
-  if (btn) {
-    btn.disabled = false;
-    if (!isValid) {
-      btn.classList.add('is-incomplete');
-    } else {
-      btn.classList.remove('is-incomplete');
-    }
-  }
-  return isValid;
+  document.getElementById("btn-step3").disabled =
+    !document.getElementById("terms").checked;
 }
+function togglePref(card) {
+  card.classList.toggle("selected");
+}
+
 // ── AVATAR ──
 const GRADIENTS = [
   ["#14b8a6", "#06b6d4"],
@@ -687,262 +665,6 @@ function randomAvatar() {
   setTimeout(() => (bubble.style.transform = "scale(1)"), 250);
 }
 
-// ══════════════════════════════════════════
-// ── VALIDAÇÕES E LÓGICA DOS PASSOS (REORGANIZADO) ──
-// ══════════════════════════════════════════
-
-// ── STEP 1: Conta ──
-function validateEmail() {
-  const input = document.getElementById("email"),
-    msg = document.getElementById("email-msg"),
-    val = input.value.trim();
-  if (!val) {
-    input.classList.remove("error", "success");
-    msg.className = "field-msg";
-    msg.textContent = "";
-    return false;
-  }
-  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-  if (ok) {
-    input.classList.add("success");
-    input.classList.remove("error");
-    msg.className = "field-msg success";
-    msg.textContent = t("ok_email");
-  } else {
-    input.classList.add("error");
-    input.classList.remove("success");
-    msg.className = "field-msg error";
-    msg.textContent = t("err_email");
-  }
-  checkEmailSuggestion();
-  return ok;
-}
-
-function checkStrength() {
-  const val = document.getElementById("password").value;
-  const bars = document.querySelectorAll("#strength-bars .pass-strength-bar");
-  const counter = document.getElementById("char-counter");
-  const tip = document.getElementById("pass-tip");
-  counter.textContent = val.length > 0 ? val.length + "/128" : "";
-  counter.classList.toggle("warn", val.length > 100);
-  let score = 0, hint = "";
-  if (val.length < 8) { hint = t("tip_length"); } 
-  else {
-    score++;
-    if (!/[A-Z]/.test(val)) { hint = t("tip_upper"); } 
-    else {
-      score++;
-      if (!/[0-9]/.test(val)) { hint = t("tip_number"); } 
-      else {
-        score++;
-        if (!/[^A-Za-z0-9]/.test(val)) { hint = t("tip_symbol"); } 
-        else { score++; hint = t("tip_great"); }
-      }
-    }
-  }
-  const colors = ["", "#ef4444", "#f59e0b", "#06b6d4", "#14b8a6"];
-  bars.forEach((b, i) => { b.style.background = i < score ? colors[score] : "rgba(255,255,255,.08)"; });
-  tip.textContent = hint;
-  tip.style.color = score === 4 ? "var(--teal)" : score === 0 ? "var(--text-mute)" : "#f59e0b";
-  
-  document.getElementById("chk-len").classList.toggle("ok", val.length >= 8);
-  document.getElementById("chk-upper").classList.toggle("ok", /[A-Z]/.test(val));
-  document.getElementById("chk-num").classList.toggle("ok", /[0-9]/.test(val));
-  document.getElementById("chk-sym").classList.toggle("ok", /[^A-Za-z0-9]/.test(val));
-  
-  checkMatch();
-}
-
-function checkMatch() {
-  const p1 = document.getElementById("password").value,
-    p2 = document.getElementById("password2").value;
-  const input = document.getElementById("password2"),
-    msg = document.getElementById("match-msg");
-  if (!p2) {
-    input.classList.remove("error", "success");
-    msg.className = "field-msg";
-    msg.textContent = "";
-    return false;
-  }
-  if (p1 === p2) {
-    input.classList.add("success");
-    input.classList.remove("error");
-    msg.className = "field-msg success";
-    msg.textContent = t("ok_match");
-    return true;
-  }
-  input.classList.add("error");
-  input.classList.remove("success");
-  msg.className = "field-msg error";
-  msg.textContent = t("err_match");
-  return false;
-}
-
-function checkStep1() {
-  const emailOk = validateEmail();
-  const passOk = document.getElementById("password").value.length >= 8 && /[^A-Za-z0-9]/.test(document.getElementById("password").value);
-  const matchOk = checkMatch();
-  const isValid = emailOk && passOk && matchOk;
-  const btn = document.getElementById("btn-step1");
-  if (btn) {
-    btn.disabled = false;
-    btn.classList.toggle("is-incomplete", !isValid);
-  }
-  return isValid;
-}
-
-// ── STEP 2: Dados ──
-function maskPhone(input) {
-  let v = input.value.replace(/\D/g, "").slice(0, 11);
-  if (v.length > 6) v = v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
-  else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, "($1) $2");
-  input.value = v;
-  const msg = document.getElementById("phone-msg"), clean = v.replace(/\D/g, "");
-  if (clean.length === 11) {
-    msg.className = "field-msg success";
-    msg.textContent = t("ok_phone");
-    input.classList.add("success");
-    input.classList.remove("error");
-  } else if (clean.length > 0) {
-    msg.className = "field-msg error";
-    msg.textContent = t("err_phone");
-    input.classList.add("error");
-    input.classList.remove("success");
-  } else {
-    msg.className = "field-msg";
-    msg.textContent = "";
-    input.classList.remove("error", "success");
-  }
-}
-
-function maskDate(input) {
-  let v = input.value.replace(/\D/g, "").slice(0, 8);
-  if (v.length > 4) v = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4);
-  else if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
-  input.value = v;
-  validateBirthday();
-}
-
-function validateBirthday() {
-  const input = document.getElementById("birthday");
-  const msg = document.getElementById("birthday-msg");
-  const val = input.value;
-  if (!val || val.length < 10) {
-    msg.className = "field-msg";
-    msg.textContent = "";
-    input.classList.remove("error", "success");
-    return false;
-  }
-  const parts = val.split("/");
-  if (parts.length !== 3) { input.classList.add("error"); return false; }
-  const date = new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
-  if (isNaN(date.getTime())) {
-    msg.className = "field-msg error";
-    msg.textContent = t("err_birthday_invalid");
-    input.classList.add("error");
-    input.classList.remove("success");
-    return false;
-  }
-  const age = (new Date() - date) / (365.25 * 24 * 3600 * 1000);
-  if (age < 18) {
-    msg.className = "field-msg error";
-    msg.textContent = t("err_birthday");
-    input.classList.add("error");
-    input.classList.remove("success");
-    return false;
-  }
-  msg.className = "field-msg success";
-  msg.textContent = t("ok_birthday");
-  input.classList.add("success");
-  input.classList.remove("error");
-  return true;
-}
-
-function validateCpf(cpf) {
-  cpf = cpf.replace(/\D/g, "");
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-  let sum = 0;
-  for (let i = 0; i < 9; i++) sum += parseInt(cpf[i]) * (10 - i);
-  let r = 11 - (sum % 11);
-  let d1 = r < 2 ? 0 : r;
-  if (d1 !== parseInt(cpf[9])) return false;
-  sum = 0;
-  for (let i = 0; i < 10; i++) sum += parseInt(cpf[i]) * (11 - i);
-  r = 11 - (sum % 11);
-  let d2 = r < 2 ? 0 : r;
-  return d2 === parseInt(cpf[10]);
-}
-
-function maskCpf(input) {
-  let v = input.value.replace(/\D/g, "").slice(0, 11);
-  v = v.replace(/(\d{3})(\d)/, "$1.$2");
-  v = v.replace(/(\d{3})(\d)/, "$1.$2");
-  v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  input.value = v;
-  const msg = document.getElementById("cpf-msg"), clean = v.replace(/\D/g, "");
-  if (clean.length === 11) {
-    const valid = validateCpf(clean);
-    if (valid) {
-      msg.className = "field-msg success";
-      msg.textContent = t("ok_cpf");
-      input.classList.add("success");
-      input.classList.remove("error");
-    } else {
-      msg.className = "field-msg error";
-      msg.textContent = t("err_cpf");
-      input.classList.add("error");
-      input.classList.remove("success");
-    }
-    return valid;
-  }
-  msg.className = "field-msg";
-  msg.textContent = "";
-  input.classList.remove("error", "success");
-  return false;
-}
-
-function validateName() {
-  const input = document.getElementById("fullname");
-  const msg = document.getElementById("name-msg");
-  const val = input.value.trim();
-  const parts = val.split(" ").filter(p => p.length > 0);
-  const ok = parts.length >= 2;
-
-  if (!val) {
-    input.classList.remove("error", "success");
-    msg.className = "field-msg";
-    msg.textContent = "";
-    return false;
-  }
-
-  if (ok) {
-    input.classList.add("success");
-    input.classList.remove("error");
-    msg.className = "field-msg success";
-    msg.textContent = t("ok_name");
-  } else {
-    input.classList.add("error");
-    input.classList.remove("success");
-    msg.className = "field-msg error";
-    msg.textContent = t("err_name");
-  }
-  return ok;
-}
-
-function checkStep2() {
-  const nameOk = validateName();
-  const phoneOk = document.getElementById("phone").value.replace(/\D/g, "").length === 11;
-  const cpfOk = maskCpf(document.getElementById("cpf"));
-  const bdayOk = validateBirthday();
-  const isValid = nameOk && phoneOk && cpfOk && bdayOk;
-  const btn = document.getElementById("btn-step2");
-  if (btn) {
-    btn.disabled = false;
-    btn.classList.toggle("is-incomplete", !isValid);
-  }
-  return isValid;
-}
-
 // ── FINISH ──
 function triggerPhotoUpload() {
   document.getElementById("photo-input").click();
@@ -967,7 +689,7 @@ function finish() {
       }
     }, 1000);
   }, 1400);
-} // This finish function is patched later to show OTP
+}
 function spawnConfetti() {
   const colors = [
     "#14b8a6",
@@ -1016,7 +738,6 @@ function shakeStep(step) {
   }
 }
 
-
 // ── GENERATE PASSWORD ──
 function generatePassword() {
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -1029,32 +750,18 @@ function generatePassword() {
     lower[Math.floor(Math.random() * lower.length)] +
     nums[Math.floor(Math.random() * nums.length)] +
     syms[Math.floor(Math.random() * syms.length)];
-  for (let i = 0; i < 8; i++) pass += all[Math.floor(Math.random() * all.length)];
-  pass = pass.split("").sort(() => Math.random() - 0.5).join("");
-  
-  // Preenche o campo de Senha principal
+  for (let i = 0; i < 8; i++)
+    pass += all[Math.floor(Math.random() * all.length)];
+  pass = pass
+    .split("")
+    .sort(() => Math.random() - 0.5)
+    .join("");
   const input = document.getElementById("password");
-  if (input) {
-    input.type = "text";
-    input.value = pass;
-  }
-  const tp1 = document.getElementById("tp1");
-  if (tp1) tp1.classList.add("pass-visible");
-  
-  // Preenche automaticamente o campo de Confirmar Senha (se existir!)
-  const input2 = document.getElementById("password2");
-  if (input2) {
-    input2.type = "text";
-    input2.value = pass;
-  }
-  const tp2 = document.getElementById("tp2"); 
-  if (tp2) tp2.classList.add("pass-visible");
-
-  // Roda as verificações para o formulário reconhecer que está tudo certo
+  input.type = "text";
+  input.value = pass;
+  document.getElementById("tp1").classList.add("pass-visible");
   checkStrength();
-  if (typeof checkMatch === "function") checkMatch();
   checkStep1();
-
   const copyBtn = document.createElement("button");
   copyBtn.textContent = "📋 Copiar senha";
   copyBtn.style.cssText =
@@ -1070,6 +777,7 @@ function generatePassword() {
     if (t) t.appendChild(copyBtn);
   }, 100);
 }
+
 // ── EMAIL SUGGESTION ──
 const COMMON_DOMAINS = [
   "gmail.com",
@@ -1253,20 +961,13 @@ checkStep1 = function () {
     document.getElementById("password").value ===
       document.getElementById("password2").value &&
     document.getElementById("password2").value.length > 0;
-  
-  // Verifica se tudo está correto
-  const isValid = emailOk && email2Ok && passOk && matchOk;
-  
-  const btn = document.getElementById("btn-step1");
-  
-  // Substituímos o btn.disabled nativo por uma classe CSS
-  if (!isValid) {
-    btn.classList.add("is-incomplete");
-  } else {
-    btn.classList.remove("is-incomplete");
-  }
+  document.getElementById("btn-step1").disabled = !(
+    emailOk &&
+    email2Ok &&
+    passOk &&
+    matchOk
+  );
 };
-
 
 // ── CHECKLIST ──
 const _origCheckStrength = checkStrength;
@@ -1517,62 +1218,3 @@ document.querySelectorAll("a[href]").forEach((link) => {
     }, 260);
   });
 });
-
-// ── PATCH checkStep1 (final version, robusta) ──
-checkStep1 = function () {
-  const emailEl = document.getElementById("email");
-  const email2El = document.getElementById("email2");
-  const passEl = document.getElementById("password");
-  const pass2El = document.getElementById("password2");
-
-  // Validações, verificando se os elementos existem na tela atual
-  const emailOk = emailEl ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim()) : true;
-  const email2Ok = email2El && emailEl ? (emailEl.value.trim() === email2El.value.trim() && email2El.value.trim().length > 0) : true;
-  const passOk = passEl ? passEl.value.length >= 8 : true;
-  const matchOk = pass2El && passEl ? (passEl.value === pass2El.value && pass2El.value.length > 0) : true;
-
-  const isValid = emailOk && email2Ok && passOk && matchOk;
-function tentarAvancar(passoAtual, proximoPasso) {
-  let isValid = false;
-  let btnId = '';
-
-  if (passoAtual === 1) {
-    btnId = 'btn-step1';
-    // Garante que todas as validações do passo 1 sejam executadas para atualizar o estado do botão
-    validateEmail();
-    checkStrength();
-    checkMatch();
-    checkStep1(); // Atualiza a classe 'is-incomplete' do btn-step1
-  } else if (passoAtual === 2) {
-    btnId = 'btn-step2';
-    // Garante que todas as validações do passo 2 sejam executadas
-    maskPhone(document.getElementById("phone"));
-    maskCpf(document.getElementById("cpf"));
-    validateBirthday();
-    checkStep2(); // Atualiza a classe 'is-incomplete' do btn-step2
-  }
-
-  const btn = document.getElementById(btnId);
-  if (btn && !btn.classList.contains('is-incomplete')) {
-    isValid = true;
-  }
-
-  if (isValid) {
-    finish();
-  } else {
-    shakeStep(passoAtual);
-  }
-}
-
-function tentarFinalizar(passoAtual) {
-  let isValid = true;
-  if (passoAtual === 3) {
-    isValid = checkStep3(); // Chama a função de validação dedicada para o passo 3
-  }
-
-  if (isValid) {
-    goNext(proximoPasso, true);
-  } else {
-    shakeStep(passoAtual);
-  }
-}
