@@ -46,8 +46,8 @@ app.post('/api/auth/login', async (req, res) => {
     const user = result.rows[0];
     
     // Compara a senha digitada com a criptografada no banco
-    // const validPassword = await bcrypt.compare(password, user.password_hash);
-    // if (!validPassword) return res.status(401).json({ error: 'Senha incorreta' });
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) return res.status(401).json({ error: 'Senha incorreta' });
 
     // Gera Token JWT válido por 7 dias
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -55,6 +55,37 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erro interno no servidor' });
+  }
+});
+
+// ── ROTA DE REGISTRO (Criar Conta) ──
+app.post('/api/auth/register', async (req, res) => {
+  const { email, password, fullname, phone, birthday, cpf } = req.body;
+  try {
+    // Verifica se usuário já existe
+    const userExists = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (userExists.rows.length > 0) {
+      return res.status(400).json({ error: 'E-mail já cadastrado.' });
+    }
+
+    // Criptografa a senha antes de salvar no banco
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    // Insere o novo usuário no banco de dados Neon
+    const newUser = await pool.query(
+      `INSERT INTO users (email, password_hash, fullname, phone, birthday, cpf) 
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+      [email, passwordHash, fullname, phone, birthday, cpf]
+    );
+
+    // Cria o token para já deixar o usuário logado automaticamente
+    const token = jwt.sign({ userId: newUser.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    
+    res.status(201).json({ token, message: 'Conta criada com sucesso!' });
+  } catch (err) {
+    console.error('Erro no registro:', err);
+    res.status(500).json({ error: 'Erro interno ao criar conta.' });
   }
 });
 
