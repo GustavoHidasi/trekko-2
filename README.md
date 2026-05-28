@@ -1,42 +1,78 @@
 # Trekko - Sistema de Gestão de Roteiros Turísticos
 
-## Sobre o Projeto
-O Trekko é um projeto acadêmico de uma aplicação voltada para a área de turismo. O objetivo é criar uma plataforma que centralize o planejamento de viagens, permitindo ao usuário montar roteiros, visualizar mapas e organizar passagens e hospedagens em um só lugar.
+## 1. Apresentação do Projeto
 
----
+O **Trekko** é um projeto acadêmico desenvolvido como parte dos requisitos práticos de avaliação em Engenharia de Software. Trata-se de uma aplicação web voltada para o setor de turismo, com o objetivo principal de atuar como um assistente pessoal de viagens. A plataforma propõe centralizar o planejamento logístico, permitindo ao usuário montar roteiros, visualizar mapas, e organizar passagens, hospedagens e atividades em um único ambiente integrado.
 
-## 1. Tecnologias Utilizadas
+## 2. Objetivos
 
-* **Frontend:** HTML, CSS e JavaScript (Vanilla ou utilizando um framework como React/Vue) para a construção da interface do usuário.
-* **Backend:** JavaScript ou rodando em ambiente Node.js (utilizando o framework Express) para a construção da API REST.
-* **Backend:** JavaScript ou rodando em ambiente Node.js (utilizando por exemplo o framework Express) para a construção da API REST.
-* **Banco de Dados:** PostgreSQL na Nuvem com Neon para armazenamento de usuários, roteiros e atividades.
+### 2.1 Objetivo Geral
+Desenvolver uma plataforma web responsiva para a gestão e organização centralizada de roteiros turísticos, facilitando o planejamento de viagens através de uma interface unificada e integração com serviços de geolocalização.
 
----
+### 2.2 Objetivos Específicos
+* Implementar um sistema de autenticação seguro para controle de acesso individual.
+* Desenvolver um módulo de CRUD (Create, Read, Update, Delete) para gestão completa de roteiros e atividades.
+* Construir uma interface de linha do tempo (timeline) para ordenação cronológica do planejamento.
+* Integrar mapas interativos para visualização espacial das atividades cadastradas.
+* Aplicar conceitos de modelagem relacional de banco de dados para garantir a integridade dos dados e relacionamentos corretos entre os usuários e seus roteiros.
 
-## 2. Requisitos Funcionais (RF)
+## 3. Arquitetura e Tecnologias
 
-* **[RF01] Cadastro e Autenticação:** O sistema deve permitir que os usuários façam cadastro, login e logout na plataforma.
-* **[RF02] Gestão de Roteiros (CRUD):** O sistema deve permitir a criação, listagem, edição e exclusão de roteiros de viagem.
-* **[RF03] Gestão de Atividades:** O sistema deve permitir adicionar itens a um roteiro (ex: voo, hospedagem, passeio turístico) informando data, hora e local.
-* **[RF04] Visualização em Linha do Tempo:** O sistema deve exibir as atividades do roteiro organizadas cronologicamente em uma tela.
-* **[RF05] Visualização no Mapa:** O sistema deve exibir os locais das atividades cadastradas em um mapa interativo.
-* **[RF06] Consulta de Serviços:** O sistema deve consumir uma API externa (ex: Google Places ou TripAdvisor) para buscar locais e pontos turísticos.
+O sistema foi projetado seguindo o padrão arquitetural Cliente-Servidor, garantindo a separação de responsabilidades (SoC - Separation of Concerns), o que facilita a manutenção e possibilita a evolução independente das camadas da aplicação.
 
----
+### 3.1 Frontend (Camada de Apresentação)
+* **HTML5 e CSS3:** Estruturação semântica e estilização da interface, adotando o conceito de *Mobile First* para garantir total responsividade e adaptação a diferentes tamanhos de tela.
+* **JavaScript (Vanilla):** Implementação da lógica de interação no lado do cliente, manipulação do DOM e consumo assíncrono da API REST (via Fetch API).
 
-## 3. Requisitos Não Funcionais (RNF)
+### 3.2 Backend (Camada de Negócios e Serviços)
+* **Node.js e Express.js:** Construção de uma API RESTful para o processamento das requisições HTTP, roteamento e aplicação estrita das regras de negócio.
 
-* **[RNF01] Arquitetura:** O sistema deve seguir o padrão cliente-servidor, com comunicação feita via API REST em formato JSON.
-* **[RNF02] Usabilidade e Responsividade:** A interface web deve ser responsiva, adaptando-se corretamente tanto a telas de computadores quanto a dispositivos móveis (Mobile First via CSS).
-* **[RNF03] Persistência:** Os dados devem ser salvos em um banco de dados relacional.
-* **[RNF04] Segurança:** As senhas dos usuários devem ser armazenadas no banco de dados de forma criptografada (ex: utilizando bcrypt no Node.js).
-* **[RNF05] Desempenho:** O tempo de resposta das consultas ao banco de dados não deve ultrapassar 2 segundos.
+### 3.3 Banco de Dados (Camada de Persistência)
+* **PostgreSQL (Plataforma Neon):** Sistema de Gerenciamento de Banco de Dados Relacional (SGBDR) hospedado na nuvem. Escolhido pela sua robustez em garantir integridade referencial e conformidade ACID nas transações que envolvem usuários, viagens e atividades.
 
----
+## 4. Engenharia de Requisitos
 
-## 4. Regras de Negócio (RN)
+Abaixo estão descritos os requisitos elicitados para o sistema, estruturados de acordo com as melhores práticas do Ciclo de Vida de Desenvolvimento de Software (SDLC), divididos entre funcionais e não funcionais.
 
-* **[RN01] Acesso Restrito:** Um usuário só pode visualizar, editar ou excluir os roteiros criados por ele mesmo.
-* **[RN02] Validação de Datas:** Não é possível criar uma atividade com data de término anterior à data de início.
-* **[RN03] Escopo de Pagamento:** O sistema atuará apenas como organizador e vitrine; nenhuma transação financeira ou pagamento real será processado diretamente pela aplicação.
+### 4.1 Requisitos Funcionais (RF)
+* **[RF01] Autenticação e Autorização:** O sistema deve permitir o cadastro de novos usuários, bem como a realização de login e logout com gestão de sessão segura.
+* **[RF02] Gestão de Roteiros:** O sistema deve fornecer operações completas de criação, leitura, atualização e exclusão (CRUD) para os roteiros de viagem.
+* **[RF03] Inserção de Atividades:** Deve ser possível vincular atividades específicas (ex: voos, hospedagens, traslados, passeios) a um roteiro, devendo o usuário fornecer dados de data, horário e localização exata.
+* **[RF04] Renderização Cronológica:** O sistema deve organizar e exibir os dados das atividades de um roteiro em formato de linha do tempo contínua.
+* **[RF05] Integração Geoespacial:** O sistema deve renderizar as coordenadas dos locais cadastrados em uma interface de mapa iterativo.
+* **[RF06] Consumo de API Externa:** O sistema deve estabelecer comunicação com APIs de terceiros (ex: Google Places) para enriquecimento de dados e busca de pontos turísticos.
+
+### 4.2 Requisitos Não Funcionais (RNF)
+* **[RNF01] Interoperabilidade:** A troca de dados entre a aplicação cliente e o servidor deve ocorrer exclusivamente em formato JSON através de requisições REST.
+* **[RNF02] Usabilidade:** A interface de usuário (UI) deve ser intuitiva e seguir princípios de heurísticas de usabilidade, mantendo o layout funcional em ambientes desktop e mobile.
+* **[RNF03] Segurança de Dados:** As senhas dos usuários devem ser submetidas a um processo de hash criptográfico unidirecional (utilizando bibliotecas como bcrypt) antes da persistência no banco de dados.
+* **[RNF04] Desempenho e Latência:** As operações de consulta e escrita no banco de dados devem ser otimizadas para responder à requisição do cliente em um tempo máximo de 2 segundos.
+
+## 5. Regras de Negócio (RN)
+
+* **[RN01] Isolamento de Dados por Usuário:** Um usuário previamente autenticado possui permissão de leitura, edição e exclusão estritamente sobre os roteiros e informações vinculadas à sua própria chave primária no sistema.
+* **[RN02] Consistência Temporal:** O backend deve validar e rejeitar a criação de qualquer atividade cuja data e hora de término informadas sejam anteriores à data e hora de início.
+* **[RN03] Escopo Não-Transacional:** A plataforma opera unicamente como uma ferramenta para organização logística. O escopo atual isenta o sistema de gateways de pagamento; logo, nenhuma transação financeira ou reserva de serviços reais ocorrerá dentro da aplicação.
+
+## 6. Instruções para Inicialização Local
+
+Para avaliação e execução do projeto em ambiente de desenvolvimento, siga os passos abaixo:
+
+1. Realize o clone deste repositório:
+   ```bash
+   git clone https://github.com/GustavoHidasi/trekko-2.git
+   ```
+2. Acesse o diretório raiz do projeto:
+   ```bash
+   cd trekko-2
+   ```
+3. Instale as dependências do servidor:
+   ```bash
+   npm install
+   ```
+4. Configure as variáveis de ambiente renomeando ou copiando o arquivo `env.example.txt` para `.env` e preencha com as credenciais válidas do PostgreSQL (Neon).
+5. Inicie a aplicação:
+   ```bash
+   npm start
+   ```
+6. Acesse a aplicação no navegador de sua preferência inserindo o endereço local (geralmente `http://localhost:3000` ou a porta informada no terminal).
