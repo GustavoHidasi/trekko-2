@@ -1219,20 +1219,69 @@ document.querySelectorAll("a[href]").forEach((link) => {
   });
 });
 
-
 function tentarAvancar(passoAtual, proximoPasso) {
-  // Vamos verificar se os campos do passo atual estão válidos
-  // (Usando a função validateStep que te mostrei na mensagem anterior)
-  let formularioValido = validateStep(passoAtual);
+  const stepDiv = document.getElementById("step" + passoAtual);
+  const inputs = stepDiv.querySelectorAll("input[required]");
+  let isValid = true;
 
-  if (formularioValido) {
-    // Se estiver tudo preenchido, chama a sua função original de avançar
-    goNext(proximoPasso, true);
+  // 1. Verifica se todos os campos obrigatórios estão preenchidos
+  inputs.forEach((input) => {
+    if (!input.value.trim()) {
+      isValid = false;
+      input.classList.add("error"); // Fica vermelho
+    } else {
+      input.classList.remove("error");
+    }
+  });
+
+  // 2. Checa se há algum erro de formato (ex: e-mail inválido, senhas não conferem)
+  if (stepDiv.querySelectorAll(".error").length > 0) {
+    isValid = false;
+  }
+
+  // 3. Decide se avança ou se treme a tela
+  if (isValid) {
+    goNext(proximoPasso, true); // Sua função original que avança
   } else {
-    // Se faltar algo, chama a função de tremer
-    shakeStep(passoAtual);
+    shakeStep(passoAtual); // Sua função original que treme
   }
 }
 
+function tentarFinalizar(passoAtual) {
+  const stepDiv = document.getElementById("step" + passoAtual);
+  // Seleciona campos de texto obrigatórios e checkboxes obrigatórios (Termos de Uso)
+  const inputs = stepDiv.querySelectorAll("input[required]");
+  let isValid = true;
 
+  // 1. Verifica se todos os campos estão preenchidos/marcados
+  inputs.forEach((input) => {
+    if (input.type === "checkbox") {
+      if (!input.checked) {
+        isValid = false;
+        // Pinta a caixa do checkbox de vermelho se não estiver marcado
+        input.style.outline = "2px solid #ef4444";
+      } else {
+        input.style.outline = "none";
+      }
+    } else {
+      if (!input.value.trim()) {
+        isValid = false;
+        input.classList.add("error");
+      } else {
+        input.classList.remove("error");
+      }
+    }
+  });
 
+  // 2. Checa se ainda há classes de erro na tela
+  if (stepDiv.querySelectorAll(".error").length > 0) {
+    isValid = false;
+  }
+
+  // 3. Decide se finaliza o cadastro ou se treme a tela avisando do erro
+  if (isValid) {
+    finish(); // Dispara o carregamento e a criação da conta!
+  } else {
+    shakeStep(passoAtual); // Treme a tela para avisar o usuário
+  }
+}
