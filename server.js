@@ -15,6 +15,25 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false } // Necessário para o Neon
 });
 
+// ── CRIAÇÃO DA CONTA FALSA AUTOMÁTICA ──
+const criarContaFake = async () => {
+  try {
+    const res = await pool.query("SELECT id FROM users WHERE email = 'teste@trekko.com'");
+    if (res.rows.length === 0) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash('123456', salt);
+      await pool.query(
+        `INSERT INTO users (email, password_hash, fullname, phone, birthday, cpf) VALUES ($1, $2, $3, $4, $5, $6)`,
+        ['teste@trekko.com', hash, 'Viajante Teste', '11999999999', '1990-01-01', '11122233344']
+      );
+      console.log('✅ Conta falsa criada no banco: teste@trekko.com / Senha: 123456');
+    }
+  } catch (err) {
+    console.log('Aviso: Não foi possível criar conta falsa agora.', err.message);
+  }
+};
+criarContaFake();
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
